@@ -338,6 +338,8 @@ document.getElementById('btnCapNhat').onclick = function () {
         var empPosition = document.getElementById('chucvu');
         var empWorkingTime = document.getElementById('gioLam');
 
+        var btnUpdate = document.getElementById('btnCapNhat');
+        btnUpdate.removeAttribute('data-dismiss');
     if (confirm("Bạn có đồng thay đổi thông tin của nhân viên với tài khoản " + employeeUpdateAccount + " này không ?"))
      {
         if (!validationForm())  return;
@@ -357,15 +359,10 @@ document.getElementById('btnCapNhat').onclick = function () {
 
         alert("Cập nhật thông tin mới thành công !!!");
 
-        var btnUpdate = document.getElementById('btnCapNhat');
-       
         btnUpdate.setAttribute('data-dismiss', 'modal');
         
-
     }
     else {
-        var btnUpdate = document.getElementById('btnCapNhat');
-        btnUpdate.removeAttribute('data-dismiss');
         return;
     }
 }
