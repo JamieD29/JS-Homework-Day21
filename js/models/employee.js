@@ -8,14 +8,18 @@ function Employee (account, fullname, email, password, workingDay, salary, posit
     this._position = position;
     this._workingTime = workingTime;
     this.calcSalary = function(){
+        var result;
         if(this._position === "Sếp"){
-            return this._salary *3;
+                result = this._salary *3;
+       
         }else if(this._position === "Trưởng phòng"){
-            return this._salary * 2;
+            result = this._salary *2;
+      
         }else {
-            return this._salary;
+            result = this._salary ;
+         
         }
-    
+    return result.toLocaleString();
     }
 
     this.Classification = function (){

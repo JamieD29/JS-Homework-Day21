@@ -261,7 +261,9 @@ function deleteEmployee(accountName) {
     employeeList.splice(index, 1);
     renderEmployee();
     saveEmployeeList();
+    alert("Xoá nhân viên với tài khoản " + accountName + "thành công !!");
     }else{
+        
         return;
     }
 }
