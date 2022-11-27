@@ -355,6 +355,8 @@ document.getElementById('btnCapNhat').onclick = function () {
 
         saveEmployeeList();
 
+        alert("Cập nhật thông tin mới thành công !!!");
+
         var btnUpdate = document.getElementById('btnCapNhat');
        
         btnUpdate.setAttribute('data-dismiss', 'modal');
