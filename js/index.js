@@ -137,11 +137,15 @@ function createEmployee() {
 
     for (var i = 0; i < employeeList.length; i++) {
         if (employeeList[i]._account === empAccount) {
-            alert('Tên tài khoản này đã tồn tại');
+
+            document.getElementById("tbTKNV").style.display = 'block';
+            document.getElementById("tbTKNV").innerHTML = 'Tên tài khoản này đã tồn tại';
             return;
         }
         if (employeeList[i]._email === empEmail) {
-            alert('Tài khoản Email này đã được sử dụng');
+
+            document.getElementById("tbEmail").style.display = 'block';
+            document.getElementById("tbEmail").innerHTML = 'Tài khoản Email này đã được sử dụng';
             return;
         }
     }
@@ -257,34 +261,34 @@ function deleteEmployee(accountName) {
         alert("Nhân viên này KHÔNG tồn tại!!");
         return;
     }
-    if(confirm("Bạn có chắc muốn xoá nhân viên với tài khoản "+ accountName +" này không?")){
-    employeeList.splice(index, 1);
-    renderEmployee();
-    saveEmployeeList();
-    alert("Xoá nhân viên với tài khoản " + accountName + "thành công !!");
-    }else{
-        
+    if (confirm("Bạn có chắc muốn xoá nhân viên với tài khoản " + accountName + " này không?")) {
+        employeeList.splice(index, 1);
+        renderEmployee();
+        saveEmployeeList();
+        alert("Xoá nhân viên với tài khoản " + accountName + "thành công !!");
+    } else {
+
         return;
     }
 }
 
- 
+
 /**
  * Hàm để khi nhấn Edit chắc chắn các thông báo lỗi còn xuất hiện ở form được ẩn đi hết
  * 
  *  Ví dụ: khi bấm THÊM NHÂN VIÊN nhưng ta không nhập dữ liệu và bấm THÊM, các thanh 
  * input sẽ báo lỗi và lỗi sẽ còn ở đó.
  *      => Vì thế hàm này để xoá sạch các thông báo đó để EDIT thông tin nhân viên.
- */ 
-function resetErrorForm(){
-    document.getElementById('tbTKNV').style.display='none';
-    document.getElementById('tbTen').style.display='none';
-    document.getElementById('tbEmail').style.display='none';
-    document.getElementById('tbMatKhau').style.display='none';
-    document.getElementById('tbNgay').style.display='none';
-    document.getElementById('tbLuongCB').style.display='none';
-    document.getElementById('tbChucVu').style.display='none';
-    document.getElementById('tbGiolam').style.display='none';
+ */
+function resetErrorForm() {
+    document.getElementById('tbTKNV').style.display = 'none';
+    document.getElementById('tbTen').style.display = 'none';
+    document.getElementById('tbEmail').style.display = 'none';
+    document.getElementById('tbMatKhau').style.display = 'none';
+    document.getElementById('tbNgay').style.display = 'none';
+    document.getElementById('tbLuongCB').style.display = 'none';
+    document.getElementById('tbChucVu').style.display = 'none';
+    document.getElementById('tbGiolam').style.display = 'none';
 }
 
 
@@ -302,7 +306,7 @@ function editEmployee(accountName) {
 
     var index = findByAccountName(accountName);
     if (index === -1) return alert("Nhân viên này KHÔNG tồn tại!!");
-    
+
     var employee = employeeList[index];
     document.getElementById('tknv').value = employee._account;
     document.getElementById('name').value = employee._fullname;
@@ -323,35 +327,46 @@ document.getElementById('btnCapNhat').onclick = function () {
 
     var employeeUpdateAccount = document.getElementById('tknv').value;
 
-        var indexUpdated = findByAccountName(employeeUpdateAccount);
-        if (indexUpdated === -1) {
-            alert("Nhân viên này KHÔNG tồn tại!!");
-            return;
-        }
-        var updateEmployee = employeeList[indexUpdated];
+    var indexUpdated = findByAccountName(employeeUpdateAccount);
+    if (indexUpdated === -1) {
+        alert("Nhân viên này KHÔNG tồn tại!!");
+        return;
+    }
+    var updateEmployee = employeeList[indexUpdated];
 
-        var empFullName = document.getElementById('name');
-        var empEmail = document.getElementById('email');
-        var empPassword = document.getElementById('password');
-        var empWorkingDay = document.getElementById('datepicker');
-        var empSalary = document.getElementById('luongCB');
-        var empPosition = document.getElementById('chucvu');
-        var empWorkingTime = document.getElementById('gioLam');
+    var empFullName = document.getElementById('name');
+    var empEmail = document.getElementById('email');
+    var empPassword = document.getElementById('password');
+    var empWorkingDay = document.getElementById('datepicker');
+    var empSalary = document.getElementById('luongCB');
+    var empPosition = document.getElementById('chucvu');
+    var empWorkingTime = document.getElementById('gioLam');
 
-        var btnUpdate = document.getElementById('btnCapNhat');
-        btnUpdate.removeAttribute('data-dismiss');
-    if (confirm("Bạn có đồng thay đổi thông tin của nhân viên với tài khoản " + employeeUpdateAccount + " này không ?"))
-     {
-        if (!validationForm())  return;
-    
-        
+    var btnUpdate = document.getElementById('btnCapNhat');
+    btnUpdate.removeAttribute('data-dismiss');
+    if (confirm("Bạn có đồng thay đổi thông tin của nhân viên với tài khoản " + employeeUpdateAccount + " này không ?")) {
+        if (!validationForm()) return;
+
         updateEmployee._fullname = empFullName.value;
+
+        for (var i = 0; i < employeeList.length; i++) {
+
+            if (employeeList[i]._email === empEmail.value && employeeList[i] !== updateEmployee) {
+                document.getElementById("tbEmail").style.display = 'block';
+                document.getElementById("tbEmail").innerHTML = 'Tài khoản Email này đã được sử dụng';
+                return;
+            }
+
+        }
         updateEmployee._email = empEmail.value;
         updateEmployee._password = empPassword.value;
         updateEmployee._workingDay = empWorkingDay.value;
         updateEmployee._salary = Number(empSalary.value);
         updateEmployee._position = empPosition.value;
         updateEmployee._workingTime = Number(empWorkingTime.value);
+
+        console.log(updateEmployee._email);
+
 
         renderEmployee();
 
@@ -360,7 +375,7 @@ document.getElementById('btnCapNhat').onclick = function () {
         alert("Cập nhật thông tin mới thành công !!!");
 
         btnUpdate.setAttribute('data-dismiss', 'modal');
-        
+
     }
     else {
         return;
@@ -381,13 +396,12 @@ function searchEmployee(e) {
     }
 
     renderEmployee(results);
-    console.log(results);
 }
 
 
 
 window.onload = function () {
-    
+
     var employeeListFromLocal = getEmployeeList();
 
     employeeList = mapEmployeeList(employeeListFromLocal);
